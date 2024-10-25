@@ -3,10 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Aplicación Flask</title>
+    <title>Twitter App</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+        form { margin-top: 20px; }
+        textarea { width: 100%; height: 100px; margin-bottom: 10px; }
+        button { background-color: #1DA1F2; color: white; border: none; padding: 10px 20px; cursor: pointer; }
+        .flash { padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+    </style>
 </head>
 <body>
-    <h1>Bienvenido a mi aplicación Flask</h1>
-    <p>Esta es una aplicación web simple creada con Flask.</p>
+    <h1>Twitter App</h1>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <form action="{{ url_for('tweet') }}" method="post">
+        <textarea name="tweet_content" placeholder="¿Qué está pasando?" maxlength="280" required></textarea>
+        <button type="submit">Twittear</button>
+    </form>
 </body>
 </html>
